@@ -1,10 +1,13 @@
 package com.revature.project1;
 
-public class Admin implements User {
+import java.io.Serializable;
+import java.io.Serializable.*;
+
+public class Admin implements User, Serializable {
 	
-	public String userID; 
-	public String passWord; 
-	
+	public String adminName; 
+	public String adminPassWord; 
+	private static final long serialVersionUID = 1234L;
 
 	public Admin () {
 		
@@ -12,8 +15,8 @@ public class Admin implements User {
 	
 	public Admin (String uID, String passW) {
 		
-		this.userID = uID;
-		this.passWord = passW;  
+		this.adminName = uID;
+		this.adminPassWord = passW;  
 		
 	}
 	

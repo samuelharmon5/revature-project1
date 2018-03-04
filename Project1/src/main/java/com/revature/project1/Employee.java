@@ -1,18 +1,22 @@
 package com.revature.project1;
 
-public class Employee implements User {
+import java.io.Serializable;
+import java.io.Serializable.*;
 
-	public String userID;
-	public String passWord;
+public class Employee implements User, Serializable {
+
+	public String employeeName;
+	public String employeePassWord;
 	
+	private static final long serialVersionUID = 123L;
 	public Employee() {
 		
 	}
 	
 	public Employee(String uID, String uPassW) {
 		
-		this.userID = uID;
-		this.passWord = uPassW;
+		this.employeeName = uID;
+		this.employeePassWord = uPassW;
 		
 	}
 	

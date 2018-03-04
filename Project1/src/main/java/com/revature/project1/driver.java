@@ -4,19 +4,19 @@ import java.util.*;
 
 public class driver {
 	
-	static Map bankUser = new HashMap<String, Customer>();
-	static Map employeeUser = new HashMap<String, Customer>();
-	static Map adminUser = new HashMap<String, Customer>();
-	
+	//static Map bankUser = new HashMap<String, Customer>();
+	//static Map employeeUser = new HashMap<String, Customer>();
+	//static Map adminUser = new HashMap<String, Customer>();
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stuf
+	public void doWork() {
+		// TODO Auto-generated method stuff
 		
 		//Map bankUser = new HashMap<String, Customer>();
+		Customer instCust;
+		Employee instEmp;
+		Admin instAdmin;
 		
-		//Employee instEmp;
-		//Admin instAdmin;
-		
+		UserDataBase newDataBase = new UserDataBase();
 		Scanner userInp = new Scanner(System.in);
 		
 		System.out.println("Welcome to HarmonBank Application!");
@@ -31,13 +31,32 @@ public class driver {
 			
 			if(ans.equals("y")) {
 				//send to current Customer
-				System.out.println("Please Enter your User Name");
+				System.out.println("Please Enter your User ID:");
+				String currID = userInp.nextLine();
+				//Customer thisCust = (Customer) bankUser.get(currID);
 				
+				instCust = ((Customer)newDataBase.getCustomer(currID));
+				
+				System.out.println("Please Enter your password:");
+				String currPassword = userInp.nextLine();
+				boolean chckPassword = instCust.validatePassword(currPassword);
+				if (chckPassword == true) {
+					System.out.println("password approved");
+					instCust.customerOptions(userInp);
+					
+				}else {
+					System.out.println("invalid Password");
+				}
 				
 			}else if(ans.equals("n")) {	
 				
-				Customer instCust = customerRegistration();
-				bankUser.put(instCust.userID, instCust);
+				instCust = new Customer();
+				instCust.customerRegistration();
+				instCust.customerOptions(userInp);
+				
+				newDataBase.setNewCustomer(instCust);
+				//bankUser.put(instCust.userID, instCust);
+				
 				
 				//currentCustomer();
 			}else {
@@ -56,6 +75,17 @@ public class driver {
 		
 
 	} 
+	
+	public static void main(String[] args) {
+		driver ourDriver = new driver();
+		ourDriver.doWork();
+	}
+	/*
+	Customer getCustomerObj(String uID) {
+		
+		return UserDataBase.getCustomer(uID);
+	}
+	/*
 	public static Customer customerRegistration() {
 		//Customer currCustomer = new Customer();
 		String cName;
@@ -75,9 +105,6 @@ public class driver {
 		Customer instCust = new Customer(cName, cUserID, cPassWord);
 		return instCust;
 	}
-	
-	public static void currentCustomer() {
-		
-	}
+	*/
 
 }
