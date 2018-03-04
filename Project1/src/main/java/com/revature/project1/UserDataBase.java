@@ -44,9 +44,9 @@ public class UserDataBase implements Serializable {
 	public void setAccounts(Accounts nAcct) {
 		
 	}
-	public Accounts getAcounts() {
+	public Accounts getAccounts(String accountNum) {
 		
-		return null;
+		return accountsActive.get(accountNum);
 	}
 
 }

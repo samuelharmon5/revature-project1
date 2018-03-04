@@ -68,7 +68,7 @@ public class Customer implements User, Serializable{
 		}
 		
 	}
-	public void customerOptions(Scanner currScan) {
+	public void customerOptions(Scanner currScan, UserDataBase ourBase) {
 		
 		System.out.print("Input 'Check' to check current accounts or 'apply' to apply for a new account");
 		String cAns = currScan.nextLine().toLowerCase();
@@ -76,17 +76,27 @@ public class Customer implements User, Serializable{
 		if (cAns.equals("check")) {
 			//customer accounts
 			System.out.println("Input the account you want to check: " + accountsOwned);
-			//String account 
+			String accountNum = currScan.nextLine();
+			
+			Accounts currAccount = ((UserDataBase) ourBase).getAccounts(accountNum);
+		
 			System.out.println("Please select what you want to do: Withdraw, deposit, or transfer?");
 			String doNext = currScan.next().toLowerCase();
 			
 			switch(doNext) {
 			case "withdraw"://Withdraw from an account
-				
+				double withDrawAmmount = 0;
+				currAccount.withdraw(withDrawAmmount);
+				//accountsOwned[accountNum].withdraw();
 			break;
 			case "deposit": //Deposit into an account
+				double depositAmmount = 0;
+				currAccount.deposit(depositAmmount);
 			break; 
 			case"transfer": //transfer between account
+				double transferAmmount = 0;
+				currAccount.transfer(transferAmmount, currAccount);
+				
 			default: System.out.println("Invalid Input");
 			break; 
 			}

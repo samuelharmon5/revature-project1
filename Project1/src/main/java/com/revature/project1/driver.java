@@ -42,7 +42,7 @@ public class driver {
 				boolean chckPassword = instCust.validatePassword(currPassword);
 				if (chckPassword == true) {
 					System.out.println("password approved");
-					instCust.customerOptions(userInp);
+					instCust.customerOptions(userInp, newDataBase);
 					
 				}else {
 					System.out.println("invalid Password");
@@ -52,7 +52,7 @@ public class driver {
 				
 				instCust = new Customer();
 				instCust.customerRegistration();
-				instCust.customerOptions(userInp);
+				instCust.customerOptions(userInp, newDataBase);
 				
 				newDataBase.setNewCustomer(instCust);
 				//bankUser.put(instCust.userID, instCust);
