@@ -23,38 +23,15 @@ import org.junit.rules.ExpectedException;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-/**
- * Unit test for simple App.
+/*
+ * testing for banking application
+ * using the junit framework
  */
 public class AppTest 
     extends TestCase
 {
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
-    }
-
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return (Test) new TestSuite( AppTest.class );
- 
-    }
-
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
-    }
+	UserDataBase ourBase = new UserDataBase();
+	
     //@test
     public void testAccount() {
     	Accounts newA = new Accounts();
@@ -62,4 +39,26 @@ public class AppTest
     	assertEquals(50.00, newA.getBalance());
     }
     
-}
+    public void testAccount2() {
+    	Accounts newA = new Accounts();
+    	newA.withdraw(50.00);
+    	assertEquals(-50.00, newA.getBalance());
+    }
+    
+    public void testAccount3() {
+    	Accounts newA = new Accounts(50);
+    	newA.getBalance();
+    	assertEquals(50.00, newA.getBalance());
+    }
+    public void bankGetCust() {
+    	
+    	Customer nCust = new Customer();
+    	ourBase.setCustomer(nCust);
+    	
+    	
+    }
+    
+    
+    }
+
+    

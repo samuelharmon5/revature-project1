@@ -10,7 +10,7 @@ public class UserDataBase implements Serializable {
 	static Map<String, Customer> bankUser = new HashMap<String, Customer>();
 	static Map<String, Employee> employeeUser = new HashMap<String, Employee>();
 	static Map<String, Admin> adminUser = new HashMap<String, Admin>();
-	static Map<String, Accounts> accountsActive = new HashMap<String, Accounts>();
+	static Map<Integer, Accounts> accountsActive = new HashMap<Integer, Accounts>();
 	
 	private static final long serialVersionUID = 123456L;
 	
@@ -18,35 +18,57 @@ public class UserDataBase implements Serializable {
 		
 	}
 	
-	public void setNewCustomer(Customer nCust) {
-		bankUser.put(nCust.userID, nCust);
+	public void setCustomer(Customer nCust) {
+		bankUser.put(nCust.getUserID(), nCust);
 		
 	}
 	public Customer getCustomer(String userID) {
 		
 	return (Customer) bankUser.get(userID);
 	}
-	public void setNewEmployee(Employee nEmp) {
+	public Boolean hasKey(String userID) {
 		
+		if (bankUser.containsKey(userID) == true) {
+			return true;
+		}else{
+			return false; 
+		}
 		
 	}
-	public Employee getEmployee() {
+	public void setEmployee(Employee nEmp) {
 		
-		return null;
+		employeeUser.put(nEmp.employeeName, nEmp);
+	}
+	public Employee getEmployee(String empNam) {
+		
+		return employeeUser.get(empNam);
 	}
 	public void setAdmin(Admin nAdm) {
 		
-	}
-	public Admin getAdmin() {
-		
-		return null;
-	}
-	public void setAccounts(Accounts nAcct) {
+		adminUser.put(nAdm.adminName, nAdm);
 		
 	}
-	public Accounts getAccounts(String accountNum) {
+	public Admin getAdmin(String aID) {
+		
+		return adminUser.get(aID);
+	}
+	public void setAccounts(int aNum, Accounts nAcct) {
+		
+		accountsActive.put(aNum, nAcct);
+		
+	}
+	public Accounts getAccounts(int accountNum) {
 		
 		return accountsActive.get(accountNum);
+	}
+	public void deleteAccount(int accountNum) {
+	
+		/*
+		 * Delete Customer's access to these accounts
+		 */
+		
+		accountsActive.remove(accountNum);
+		
 	}
 
 }
