@@ -1,4 +1,4 @@
-package com.revature.project1;
+package com.revature.project1.util;
 
 /**
  * Hello world!

@@ -41,8 +41,9 @@ public class AppTest
     
     public void testAccount2() {
     	Accounts newA = new Accounts();
+    	newA.deposit(50.00);
     	newA.withdraw(50.00);
-    	assertEquals(-50.00, newA.getBalance());
+    	assertEquals(0.0, newA.getBalance());
     }
     
     public void testAccount3() {
@@ -50,14 +51,57 @@ public class AppTest
     	newA.getBalance();
     	assertEquals(50.00, newA.getBalance());
     }
-    public void bankGetCust() {
+    public void testAccount4() {
     	
-    	Customer nCust = new Customer();
-    	ourBase.setCustomer(nCust);
+    	Accounts newA = new Accounts();
+    	newA.setCustomersWithAccess("samuel");
+    	
+    	Customer samuel = new Customer();
+    	samuel.setName("samuel");
+    	
+    	assertEquals(newA.customersWithAccess.get(0), samuel.getName());
+    	
+    }
+   // @test
+    public void testAccount5() {
+    	
+    	Accounts newA = new Accounts();
+    	newA.switchApproval();
+    	assertEquals(true, newA.isAccountApproved());
+    }
+    public void testAccount6() {
+    	
+    	Accounts newA = new Accounts(356.00);
+    	double thisNumb = newA.getBalance();
+    	assertEquals(356.00, thisNumb);
+    }
+    public void testAccount7() {
+    	
+    	
     	
     	
     }
-    
+    public void testAdmin() {
+    	
+    	Admin newA = new Admin();
+    	newA.setAdminName("mother");
+    	assertEquals("mother", newA.getAdminName());
+    	
+    }
+  public void testCustomer() {
+    	
+    	Customer newC = new Customer();
+    	newC.setName("mother");
+    	assertEquals("mother", newC.getName());
+    	
+    }
+  public void testCustomer2() {
+  	
+  	Customer newC = new Customer();
+  	newC.setName("mother");
+  	assertEquals("mother", newC.getName());
+  	
+  }
     
     }
 

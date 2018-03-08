@@ -1,14 +1,18 @@
-package com.revature.project1;
+package com.revature.project1.database;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import com.revature.project1.Accounts;
+import com.revature.project1.Admin;
+import com.revature.project1.Customer;
+import com.revature.project1.Employee;
 import com.revature.project1.util.LoggingUtil;
 
 import java.io.Serializable;
 import java.io.Serializable.*;
 
-public class UserDataBase implements Serializable {
+public class dataBase implements Serializable {
 	
 	Map<String, Admin> adminUser = new HashMap<String, Admin>();
 	Map<String, Customer> bankUser = new HashMap<String, Customer>();
@@ -17,7 +21,7 @@ public class UserDataBase implements Serializable {
 	
 	private static final long serialVersionUID = 123456L;
 	
-	public UserDataBase() {
+	public dataBase() {
 		
 	}
 	

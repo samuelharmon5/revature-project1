@@ -2,41 +2,49 @@ package com.revature.project1;
 
 import java.io.Serializable;
 import java.io.Serializable.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import com.revature.project1.util.LoggingUtil;
 
 public class Accounts implements Serializable{
 	
 	private int accountNumber;
-	private String[] customersWithAccess; 
+	//private String[] customersWithAccess; 
+	public List<String> customersWithAccess = new ArrayList<String>();
 	private boolean accountApproved;
 	
-	static int accountsNumberSerial = 333; 
+	public int accountsNumberSerial; 
 	
 	
 	private static final long serialVersionUID = 12345L;
 	
 	private double balance;
 
-    Accounts() {
+    public Accounts() {
 		
-		balance = 0;
-		accountApproved = false;
-		this.accountNumber = accountsNumberSerial;
-		accountsNumberSerial++;
+		this.balance = 0;
+		this.accountApproved = false;
+		//this.accountNumber = accountsNumberSerial;
+		//accountsNumberSerial++;
 		
-	}
-    Accounts(String newAccountRequest){
-		
-		balance = 0;
-		accountApproved = false;
-		this.accountNumber = accountsNumberSerial;
-		accountsNumberSerial++;
+		Random randomNum = new Random();
+		this.accountsNumberSerial = randomNum.nextInt(500);
 		
 	}
-    Accounts(double bal){
+    public Accounts(String newAccountRequest){
+		
+		this.balance = 0;
+		accountApproved = false;
+		//this.accountNumber = accountsNumberSerial;
+		Random randomNum = new Random();
+		this.accountsNumberSerial = randomNum.nextInt(500);
+		
+	}
+    public Accounts(double bal){
     	
-    	balance = bal;
+    	this.balance = bal;
     	accountApproved = false;
     	this.accountNumber = accountsNumberSerial;
     	accountsNumberSerial++;
@@ -45,17 +53,22 @@ public class Accounts implements Serializable{
 	public void withdraw(double wDraw) {
 		
 		LoggingUtil.logInfo("Withdrawn: " + wDraw);
-		balance -= wDraw;
+		this.balance -= wDraw;
+		
+		if (this.balance < 0) {
+			System.out.println("NO OVERDRAFT PROTECTION, CANNOT GO NEGATIVE!");
+			this.balance += wDraw;
+		}
 		
 	}
 	public void deposit(double dDraw) {
 		//throw new IllegalArgumentException();
 		LoggingUtil.logInfo("deposit: " + dDraw);
-		balance += dDraw;
+		this.balance += dDraw;
 	}
 	public void transfer(double transF, Accounts otherAcc) {
 		LoggingUtil.logInfo("transfer: Frist Account:" + transF + " Second Account: " + otherAcc);
-		balance -= transF;
+		this.balance -= transF;
 		otherAcc.deposit(transF);;
 		
 	}
@@ -74,15 +87,21 @@ public class Accounts implements Serializable{
 	}
 	public void switchApproval() {
 		
+		LoggingUtil.logInfo("Approval Given for account: " + this.accountNumber);
 		accountApproved = !accountApproved;
 		
 	}
 	public int getAccountNumber() {
 		//return this.accountNumber;
-		return accountNumber;
+		return this.accountsNumberSerial;
 	}
-	public String[] getCustomersWithAccess() {
+	public List<String> getCustomersWithAccess() {
 		return this.customersWithAccess;
+	}
+	public void setCustomersWithAccess(String customerID) {
+		
+		this.customersWithAccess.add(customerID);
+		LoggingUtil.logInfo("Customer access added to: " + customerID);
 	}
 
 }
