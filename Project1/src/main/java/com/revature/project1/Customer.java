@@ -52,6 +52,9 @@ public class Customer implements User, Serializable{
 		// TODO Auto-generated method stub
 		return this.passWord;
 	}
+	public void setPassWord(String passW) {
+		this.passWord = passW;
+	}
 	
 	public void customerRegistration(UserDataBase ourBase) {
 		

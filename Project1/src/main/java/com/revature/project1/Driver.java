@@ -3,10 +3,13 @@ package com.revature.project1;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+import com.revature.dao.DataBaseDaoImpl;
+
 public class Driver {
 
 	static UserDataBase newDataBase = new UserDataBase(); 
 	static Serializer newSerializer = new Serializer();
+	DataBaseDaoImpl newDBdao = new DataBaseDaoImpl();
 	
 	public void doWork() {
 		// TODO Auto-generated method stuff
@@ -17,11 +20,11 @@ public class Driver {
 		
 		Scanner userInp = new Scanner(System.in);
 		
-		newDataBase = newSerializer.writeIn();
-		if (newDataBase == null) {
-			newDataBase = new UserDataBase();
-			System.out.println("NO DATABASE WAS LOADED");
-		}
+		//newDataBase = newSerializer.writeIn();
+		//if (newDataBase == null) {
+			//newDataBase = new UserDataBase();
+			//System.out.println("NO DATABASE WAS LOADED");
+		//}
 	
 		String userType;
 		boolean checkInput = false;
@@ -275,6 +278,15 @@ public class Driver {
 		
 		Driver ourDriver = new Driver();
 		ourDriver.doWork();
+		
+		
+		//DataBaseDaoImpl newDBdao = new DataBaseDaoImpl();
+		//Customer newCustie = new Customer ("Sam", "Sam","Sam");
+		//newDataBase.setCustomer(newCustie);
+		
+		//newDBdao.createCustomer(newDataBase, newCustie.getUserID());
+		//newDBdao.deleteCustomer(newDataBase, newCustie.getUserID());
+		//newDBdao.displaySql();
 		
 		//newSerializer = new Serializer();
 		//UserDataBase testDB;//= new UserDataBase();

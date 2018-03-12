@@ -1,6 +1,9 @@
 # Compiled class file
 *.class
 
+#Getting rid of my properties files
+*.properties
+
 # Log file
 *.log
 

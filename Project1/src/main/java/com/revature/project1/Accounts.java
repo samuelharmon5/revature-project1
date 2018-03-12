@@ -75,13 +75,24 @@ public class Accounts implements Serializable{
 	public double getBalance() {
 
 		return this.balance;
+	}
+	public void setBalance(int bal) {
 		
+		this.balance = bal;
 	}
 	public boolean isAccountApproved() {
 		if (this.accountApproved == false) {
 			return false;
 		}else {
 			return true;
+		}
+		
+	}
+	public void setApproval(String thisChar) {
+		if (thisChar.equals("n")) {
+			accountApproved = false; 
+		}else if (thisChar.equals("y")) {
+			accountApproved = true;
 		}
 		
 	}
@@ -94,6 +105,10 @@ public class Accounts implements Serializable{
 	public int getAccountNumber() {
 		//return this.accountNumber;
 		return this.accountsNumberSerial;
+	}
+	public void setAccountNumber(int acctNum) {
+		this.accountsNumberSerial = acctNum;
+		
 	}
 	public List<String> getCustomersWithAccess() {
 		return this.customersWithAccess;
