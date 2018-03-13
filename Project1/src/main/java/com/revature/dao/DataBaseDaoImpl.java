@@ -54,6 +54,7 @@ public class DataBaseDaoImpl implements DataBaseDao {
 		+ " VALUES (?,?,?)"; 
 		
 		try{
+			//Customer instCust = ourBase.getCustomer(userID);
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, ourBase.getCustomer(userID).getName());
 			ps.setString(2, ourBase.getCustomer(userID).getPassWord());
@@ -83,7 +84,7 @@ public class DataBaseDaoImpl implements DataBaseDao {
 		        read_Cust.setPassWord(rs.getString("PASSWORD"));
 		      } else {
 		    	  LoggingUtil.logInfo("DataBase error: No user with that name ");
-		    	  System.out.println("No Customer with that name");
+		    	  //System.out.println("No Customer with that name");
 		      }
 		    } catch (SQLException e) {
 		    	 LoggingUtil.logInfo("DataBase error");
@@ -213,6 +214,9 @@ public class DataBaseDaoImpl implements DataBaseDao {
 		
 		try{
 			PreparedStatement ps = conn.prepareStatement(sql);
+			
+			System.out.println(ourBase.getAdmin(adminName).getAdminPassWord());
+			
 			ps.setString(1, ourBase.getAdmin(adminName).getAdminName());
 			ps.setString(2, ourBase.getAdmin(adminName).getAdminPassWord());
 			
@@ -242,7 +246,7 @@ public class DataBaseDaoImpl implements DataBaseDao {
 	        read_Adm.setAdminPassWord(rs.getString("PASSWORD"));
 	      } else {
 	    	  LoggingUtil.logInfo("DataBase error: No user with that name ");
-	    	  System.out.println("No Customer with that name");
+	    	  //System.out.println("No Customer with that name");
 	      }
 	    } catch (SQLException e) {
 	    	 LoggingUtil.logInfo("DataBase error");

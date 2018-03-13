@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.io.Serializable.*;
 import java.util.Scanner;
 
+import com.revature.dao.DataBaseDaoImpl;
 import com.revature.project1.util.LoggingUtil;
 
 public class Admin implements User, Serializable {
@@ -24,21 +25,23 @@ public class Admin implements User, Serializable {
 	}
 	public void adminRegistration(UserDataBase ourBase){
 	Scanner userI = new Scanner(System.in);
+	DataBaseDaoImpl newDBdao = new DataBaseDaoImpl();
 	
 		boolean nameLoop = false;
 		while (nameLoop == false) {
-		System.out.println("Registration Start: Please Enter your name");
+		System.out.println("Genie Registration Start: Please Enter your Genie name");
 		String checkNameAvail = userI.next();
-		
-			if (ourBase.getAdmin(checkNameAvail) != null) {
-				System.out.println("You already have an account registered");
+		//ourBase.getAdmin(checkNameAvail)
+			Admin tempAdmin = newDBdao.readAdmin(ourBase, checkNameAvail);
+			if (tempAdmin.getAdminName() != null) {
+				System.out.println("Your Genie name is already registered");
 				nameLoop = false;
 			}else {
 				this.adminName = checkNameAvail;
 				System.out.println("Hello " + this.adminName);
-				System.out.println("Please enter a user password:");
+				System.out.println("Please enter a Genie password:");
 				this.adminPassWord = userI.next();
-				LoggingUtil.logInfo("Admin Created: " + this.adminName);
+				LoggingUtil.logInfo("Genie Created: " + this.adminName);
 				nameLoop = true;
 			}
 		}
@@ -49,12 +52,14 @@ public class Admin implements User, Serializable {
 
 		boolean loopCheck = false;
 		while (loopCheck == false){
+		DataBaseDaoImpl newDBdao = new DataBaseDaoImpl();
 		
-		System.out.println("Please input the number for your desired action:");
-		System.out.println("1) View Customer information");
+		System.out.println("Please input the number of the wish you want to grant:");
+		System.out.println("1) View DiamondInTheRough information");
 		System.out.println("2) Approve/deny open applications");
-		System.out.println("3) Withdraw, Deposit, or transfer from an Account");
-		System.out.println("4) cancel an Account");
+		System.out.println("3) Withdraw, Deposit, or transfer from a treasure pile");
+		System.out.println("4) cancel a treasure pile");
+		System.out.println("(Deprecated) Re-Animate the Dead");
 		System.out.println("5) exit ");
 		
 		String cAns = currScan.next().toLowerCase();
@@ -62,9 +67,11 @@ public class Admin implements User, Serializable {
 		case "1":
 			boolean conLoop = false;
 			while (conLoop == false) {
-				System.out.println("Please input the UserID of the Customer you wish to view:");
+				System.out.println("Please input the DiamondID of the Customer you wish to view:");
 				//cAns = currScan.nextLine().toLowerCase();
 				String currUsID = currScan.next().toLowerCase();
+				ourBase.setCustomer(newDBdao.readCustomer(ourBase, currUsID));
+				
 				if (ourBase.hasKey(currUsID) == true) {
 				//return customer information
 					Customer tempCurr = ourBase.getCustomer(currUsID);
@@ -74,18 +81,21 @@ public class Admin implements User, Serializable {
 					if (tempCurr.accountsOwned.size() > 0) {
 	
 						for (int i = 0;i<tempCurr.accountsOwned.size();i++) {
-							System.out.println("Accounts Owned: " + tempCurr.accountsOwned.get(i));
+							System.out.println("Treasure piles Owned: " + tempCurr.accountsOwned.get(i));
 							Accounts tempAccount = ourBase.getAccounts(tempCurr.accountsOwned.get(i));
-							System.out.println("Account balance: " + tempAccount.getBalance());
+							System.out.println("Treasure pile balance (US Dollars): " + tempAccount.getBalance());
 							System.out.println("");
 						}
+						
 					}
-					System.out.println("Would you like to view another Customers information? Y or N ");
+					System.out.println("Would you like to view another DiamondInTheRough's information?");
+					System.out.println("1) Yes");
+					System.out.println("2) No");
 					cAns = currScan.next().toLowerCase();
 					switch(cAns) {
-					case "y": conLoop=false;
+					case "1": conLoop=false;
 					break;
-					case "n": conLoop=true;
+					case "2": conLoop=true;
 					break;
 					}
 					continue;
@@ -96,24 +106,40 @@ public class Admin implements User, Serializable {
 			
 			boolean loopChck = false;
 			while(loopChck == false) {
-			System.out.println("Please input the UserID of the customer you would like to approve/deny");
-			String currUsID = currScan.next().toLowerCase();
+			System.out.println("Please input the DiamondID of the DiamondInTheRough you would like to approve/deny");
+			String currUsID = currScan.next();//.toLowerCase();
+			
+			ourBase.setCustomer(newDBdao.readCustomer(ourBase, currUsID));
 			
 			if (ourBase.hasKey(currUsID) == true) {
 				Customer tempCurr = ourBase.getCustomer(currUsID);
+				System.out.println("Would you like to approve TreasurePile: " + tempCurr.getName());// + "y or n");
+				System.out.println("1) Yes");
+				System.out.println("2) No");
+				String currUsID2 = currScan.next().toLowerCase();
+				switch(currUsID2) {
+				case "1":
+					System.out.println("Treasure piles for " + tempCurr.getName() + " have been approved");
+					loopChck = true;
+					break;
+				default: break;	
+				/*
 				for (int i =0;i<tempCurr.accountsOwned.size();i++) {
-					Accounts tempAcc = ourBase.getAccounts(tempCurr.accountsOwned.get(i));
+					//Accounts tempAcc = ourBase.getAccounts(tempCurr.accountsOwned.get(i));
+					Accounts tempAcc = newDBdao.readAccounts(ourBase, tempCurr.accountsOwned.get(i));
 					if (tempAcc.isAccountApproved() == false) {
-					System.out.println("Would you like to approve account: " + tempCurr.accountsOwned.get(i) + "y or n");
+					System.out.println("Would you like to approve TreasurePile: " + tempCurr.accountsOwned.get(i));// + "y or n");
+					System.out.println("1) Yes");
+					System.out.println("2) No");
 					String currUsID2 = currScan.next().toLowerCase();
 					switch(currUsID2) {
-					case "y": tempAcc.switchApproval();
+					case "1": tempAcc.switchApproval();
 					//Logger Utility
 					LoggingUtil.logInfo("account Approved: " + tempCurr.accountsOwned.get(i));
 					System.out.println("Account Approved");
 					loopChck = true;
 					break;
-					case "n": tempCurr.accountsOwned.remove(i);
+					case "2": tempCurr.accountsOwned.remove(i);
 					System.out.println("Account Denied");
 					loopChck = true;
 					default:System.out.println("Invalid input ");
@@ -121,27 +147,30 @@ public class Admin implements User, Serializable {
 					}}else {
 						System.out.println("All Accounts are approved");
 					}
-					
-					ourBase.setAccounts(tempAcc.getAccountNumber(),tempAcc);
-					
+					*/
+					//ourBase.setAccounts(tempAcc.getAccountNumber(),tempAcc);
+					//newDBdao.updateAccounts(ourBase, tempAcc.getAccountNumber());
 				}
 					ourBase.setCustomer(tempCurr);
 				}else {
-				System.out.println("please input a valid CustomerID ");
+				System.out.println("please input a valid Diamond ID ");
 				loopChck = false;
 			
 			}
-			newSerializer.writeOut(ourBase);
+			//newSerializer.writeOut(ourBase);
+			
 			}
 			break;
 			
 		case "3":
-			System.out.println("Please input the account Number: ");
+			System.out.println("Please input the Treasure Pile Number: ");
 			String doNext = currScan.next();
 			int acctNum = Integer.parseInt(doNext);
 			
 			Accounts currAccount;
-			currAccount = ourBase.getAccounts(acctNum);
+			//currAccount = ourBase.getAccounts(acctNum);
+			currAccount = newDBdao.readAccounts(ourBase, acctNum);
+			
 			if(currAccount == null) {
 				System.out.println("Account Does Not Exist");
 				loopCheck = false;
@@ -158,45 +187,51 @@ public class Admin implements User, Serializable {
 			switch(doNext) {
 			case "1"://Withdraw from an account
 				double withDrawAmmount = 0;
-				System.out.println("How Much would you like to withdraw?");
+				System.out.println("How Much would you like to withdraw? (US Dollars)");
 				doNext = currScan.next().toLowerCase();
 				withDrawAmmount = Double.parseDouble(doNext);
 				currAccount.withdraw(withDrawAmmount);
 				ourBase.setAccounts(currAccount.getAccountNumber(), currAccount);
-				newSerializer.writeOut(ourBase);
+				newDBdao.updateAccounts(ourBase, currAccount.getAccountNumber());
+				//newSerializer.writeOut(ourBase);
 				//accountsOwned[accountNum].withdraw();
 			break;
 			case "2": //Deposit into an account
 				double depositAmmount = 0;
-				System.out.println("How Much would you like to deposit?");
+				System.out.println("How Much would you like to deposit? (US Dollars)");
 				doNext = currScan.next().toLowerCase();
 				depositAmmount = Double.parseDouble(doNext);
 				currAccount.deposit(depositAmmount);
 				ourBase.setAccounts(currAccount.getAccountNumber(), currAccount);
-				newSerializer.writeOut(ourBase);
+				newDBdao.updateAccounts(ourBase, currAccount.getAccountNumber());
+				//newSerializer.writeOut(ourBase);
 				
 				System.out.println("Account: " + currAccount.getAccountNumber() 
 				+ " New Balance: " + currAccount.getBalance());
 			break; 
 			case"3": //transfer between account
 				double transferAmmount = 0;
-				System.out.println("How Much would you like to transfer?");
+				System.out.println("How Much would you like to transfer? (US Dollars)");
 				doNext = currScan.next().toLowerCase();
 				transferAmmount = Double.parseDouble(doNext);
 				System.out.println("What account would you like to transfer to?");
 				doNext = currScan.next().toLowerCase();
 				
 				int transferAccount = Integer.parseInt(doNext);
-				Accounts tempAccount = ourBase.getAccounts(transferAccount);
+				//Accounts tempAccount = ourBase.getAccounts(transferAccount);
+				Accounts tempAccount = newDBdao.readAccounts(ourBase, transferAccount);
+				ourBase.setAccounts(transferAccount, tempAccount);
 				if (tempAccount == null) {
-					System.out.println("Im sorry, this account does not exist in our system");
+					System.out.println("Im sorry, this treasure pile does not exist in our system");
 					break;
 				}
 				currAccount.transfer(transferAmmount, tempAccount);
 				
-				currAccount.transfer(transferAmmount, currAccount);
+				//currAccount.transfer(transferAmmount, currAccount);
 				ourBase.setAccounts(currAccount.getAccountNumber(), currAccount);
-				newSerializer.writeOut(ourBase);
+				newDBdao.updateAccounts(ourBase, currAccount.getAccountNumber());
+				newDBdao.updateAccounts(ourBase, tempAccount.getAccountNumber());
+				//newSerializer.writeOut(ourBase);
 			break;	
 			default: System.out.println("Invalid Input");
 			
@@ -206,14 +241,16 @@ public class Admin implements User, Serializable {
 			}
 			
 		case "4":
-			System.out.println("Please enter the Account Number that you would like to cancel: ");
+			System.out.println("Please enter the treasure pile Number that you would like to cancel: ");
 			doNext = currScan.next().toLowerCase();
 			int deltAcct = Integer.parseInt(doNext);
+			ourBase.setAccounts(deltAcct, newDBdao.readAccounts(ourBase, deltAcct));
 			
 			if (ourBase.hasKey(doNext) != null) {
 			ourBase.deleteAccount(deltAcct);
-			System.out.println("Account " + deltAcct + " Deleted...");
-			newSerializer.writeOut(ourBase);
+			System.out.println("Treasure Pile " + deltAcct + " Removed from the CaveOfWonder...");
+			//newSerializer.writeOut(ourBase);
+			newDBdao.deleteAccounts(ourBase, deltAcct);
 			}else {
 				System.out.println("Error: Account not found.");
 			}
@@ -222,13 +259,16 @@ public class Admin implements User, Serializable {
 		case "5":
 			break;
 		}//end Switch Statement
+		System.out.println("");
+		System.out.println("Would you like to grant any more wishes?");// Y or N");
+		System.out.println("1) Yes");
+		System.out.println("2) No");
 		
-		System.out.println("Would you like to make another transaction? Y or N");
-		String chkForTran = currScan.nextLine().toLowerCase();
-		if (chkForTran.equals("y")) {
+		String chkForTran = currScan.next().toLowerCase();
+		if (chkForTran.equals("1")) {
 			loopCheck = false; 
 		}
-		else if(chkForTran.equals("n")) {
+		else if(chkForTran.equals("2")) {
 			loopCheck = true; 
 		}else {
 			System.out.println("Invalid Input");
